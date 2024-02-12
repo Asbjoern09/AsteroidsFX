@@ -7,6 +7,7 @@ import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ServiceLoader;
 
@@ -14,6 +15,8 @@ import static java.util.stream.Collectors.toList;
 
 
 public class PlayerControlSystem implements IEntityProcessingService {
+    static int shootingInterval = 20;
+    static int shootingCounter = 0;
 
     @Override
     public void process(GameData gameData, World world) {
@@ -30,6 +33,17 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 double changeY = Math.sin(Math.toRadians(player.getRotation()));
                 player.setX(player.getX() + changeX);
                 player.setY(player.getY() + changeY);
+            }
+            if(gameData.getKeys().isDown(GameKeys.SPACE)){
+                ArrayList<BulletSPI> bulletSPIArrayList = (ArrayList<BulletSPI>) getBulletSPIs();
+                for (int i = 0; i < bulletSPIArrayList.size(); i++) {
+                    if(shootingCounter > shootingInterval) {
+                        world.addEntity(bulletSPIArrayList.get(i).createBullet(player, gameData));
+                        shootingCounter = 0;
+                    } else{
+                        shootingCounter++;
+                    }
+                }
             }
             
         if (player.getX() < 0) {
