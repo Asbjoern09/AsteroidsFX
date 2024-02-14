@@ -29,7 +29,7 @@ public class Main extends Application {
     private final GameData gameData = new GameData();
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
-    
+
     public Pane gameWindow;
     public static void main(String[] args) {
         launch(Main.class);
@@ -93,11 +93,15 @@ public class Main extends Application {
 
     private void render() {
         new AnimationTimer() {
-            private long then = 0;
+            private long lastTime = System.nanoTime();
 
             @Override
             public void handle(long now) {
-                update();
+                long currentTime = System.nanoTime();
+                double deltaTime = (currentTime - lastTime) / 1_000_000_000.0; // Convert nanoseconds to seconds
+                lastTime = currentTime;
+
+                update(deltaTime);
                 draw();
                 gameData.getKeys().update();
             }
@@ -105,12 +109,12 @@ public class Main extends Application {
         }.start();
     }
 
-    private void update() {
-
+    private void update(double deltaTime) {
         // Update
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
-            entityProcessorService.process(gameData, world);
+            entityProcessorService.process(gameData, world, deltaTime);
         }
+
 //        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
 //            postEntityProcessorService.process(gameData, world);
 //        }

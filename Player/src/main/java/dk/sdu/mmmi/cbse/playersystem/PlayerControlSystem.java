@@ -19,18 +19,21 @@ public class PlayerControlSystem implements IEntityProcessingService {
     static int shootingCounter = 0;
 
     @Override
-    public void process(GameData gameData, World world) {
-            
+    public void process(GameData gameData, World world, double dt) {
+        double rotationSpeed = 200;
+        double movementSpeed = 200;
+
         for (Entity player : world.getEntities(Player.class)) {
             if (gameData.getKeys().isDown(GameKeys.LEFT)) {
-                player.setRotation(player.getRotation() - 5);                
+                player.setRotation(player.getRotation() - rotationSpeed * dt);
             }
             if (gameData.getKeys().isDown(GameKeys.RIGHT)) {
-                player.setRotation(player.getRotation() + 5);                
+                player.setRotation(player.getRotation() + rotationSpeed * dt);
             }
             if (gameData.getKeys().isDown(GameKeys.UP)) {
-                double changeX = Math.cos(Math.toRadians(player.getRotation()));
-                double changeY = Math.sin(Math.toRadians(player.getRotation()));
+                double playerRadians = Math.toRadians(player.getRotation());
+                double changeX = Math.cos(playerRadians) * movementSpeed * dt;
+                double changeY = Math.sin(playerRadians) * movementSpeed * dt;
                 player.setX(player.getX() + changeX);
                 player.setY(player.getY() + changeY);
             }
