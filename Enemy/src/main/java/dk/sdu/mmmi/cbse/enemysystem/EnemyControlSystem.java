@@ -27,8 +27,6 @@ public class EnemyControlSystem implements IEntityProcessingService {
         for (Entity enemy : world.getEntities(Enemy.class)) {
             int randomNumber = random.nextInt(150);
 
-            System.out.println("enemy y = " + enemy.getY());
-            System.out.println("enemy x = " + enemy.getX());
                 if(enemy.getY() >= gameData.getDisplayHeight() -5 || enemy.getY() <= 5){
                     enemy.setRotation(enemy.getRotation() - rotationSpeed*2 * dt);
                 }

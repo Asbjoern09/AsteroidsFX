@@ -22,50 +22,39 @@ public class AsteroidControlSystem implements IEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world, double dt) {
-        double rotationSpeed = 50;
-        double movementSpeed = 50;
-        for (Entity enemy : world.getEntities(Asteroid.class)) {
+        double rotationSpeed = 500;
+        double movementSpeed = 25;
+        for (Entity asteroid : world.getEntities(Asteroid.class)) {
             int randomNumber = random.nextInt(150);
+            if (asteroid.getY() >= (gameData.getDisplayHeight()- 0.1) || asteroid.getY() <= 0.1) {
+                asteroid.setRotation(asteroid.getRotation() + random.nextInt(3001 - 1000) + 1000 * dt);
+            }
 
-            System.out.println("enemy y = " + enemy.getY());
-            System.out.println("enemy x = " + enemy.getX());
-                if(enemy.getY() >= gameData.getDisplayHeight() -5 || enemy.getY() <= 5){
-                    enemy.setRotation(enemy.getRotation() - rotationSpeed*2 * dt);
-                }
-                else if(enemy.getX() >= gameData.getDisplayWidth() -5 || enemy.getX() <= 5){
-                    enemy.setRotation(enemy.getRotation() - rotationSpeed*2 * dt);
-                }
-                else{
-                    if (randomNumber == 1 || randomNumber == 39 || randomNumber == 42) {
-                        enemy.setRotation(enemy.getRotation() - (rotationSpeed*random.nextDouble()*(20-10)) * dt);
-                    }
-                    if (randomNumber == 5 || randomNumber == 30 || randomNumber == 28) {
-                        enemy.setRotation(enemy.getRotation() + (rotationSpeed*random.nextDouble()*(20-10)) * dt);
-                    }
-                }
-                if (randomNumber >= 25) {
-                    double enemyRadians = Math.toRadians(enemy.getRotation());
-                    double changeX = Math.cos(enemyRadians) * movementSpeed * dt;
-                    double changeY = Math.sin(enemyRadians) * movementSpeed * dt;
-                    enemy.setX(enemy.getX() + changeX);
-                    enemy.setY(enemy.getY() + changeY);
-                }
+            if (asteroid.getX() >= (gameData.getDisplayWidth() -0.1) || asteroid.getX() <= 0.1) {
+                asteroid.setRotation(asteroid.getRotation() + random.nextInt(3001 - 1000) + 1000 * dt);
+            }
 
-                if (enemy.getX() < 0) {
-                    enemy.setX(1);
-                }
+            double enemyRadians = Math.toRadians(asteroid.getRotation());
+            double changeX = Math.cos(enemyRadians) * movementSpeed * dt;
+            double changeY = Math.sin(enemyRadians) * movementSpeed * dt;
+            asteroid.setX(asteroid.getX() + changeX);
+            asteroid.setY(asteroid.getY() + changeY);
 
-                if (enemy.getX() > gameData.getDisplayWidth()) {
-                    enemy.setX(gameData.getDisplayWidth() - 1);
-                }
+            if (asteroid.getX() < 0) {
+                asteroid.setX(1);
+            }
 
-                if (enemy.getY() < 0) {
-                    enemy.setY(1);
-                }
+            if (asteroid.getX() > gameData.getDisplayWidth()) {
+                asteroid.setX(gameData.getDisplayWidth() - 1);
+            }
 
-                if (enemy.getY() > gameData.getDisplayHeight()) {
-                    enemy.setY(gameData.getDisplayHeight() - 1);
-                }
+            if (asteroid.getY() < 0) {
+                asteroid.setY(1);
+            }
+
+            if (asteroid.getY() > gameData.getDisplayHeight()) {
+                asteroid.setY(gameData.getDisplayHeight() - 1);
+            }
 
         }}
 

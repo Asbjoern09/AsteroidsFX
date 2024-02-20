@@ -6,11 +6,17 @@ import java.util.UUID;
 public class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();
-    
+
+
+    public enum EntityType{
+        player, enemy, bullet, asteroid
+    }
+
     private double[] polygonCoordinates;
     private double x;
     private double y;
     private double rotation;
+    private EntityType entityType;
             
 
     public String getID() {
@@ -50,6 +56,14 @@ public class Entity implements Serializable {
 
     public double getRotation() {
         return rotation;
+    }
+
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(EntityType entityType) {
+        this.entityType = entityType;
     }
         
 
