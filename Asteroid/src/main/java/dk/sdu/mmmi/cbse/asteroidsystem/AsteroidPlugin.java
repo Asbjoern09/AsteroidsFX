@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.enemysystem;
+package dk.sdu.mmmi.cbse.asteroidsystem;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
@@ -7,7 +7,7 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
 import java.util.Random;
 
-public class EnemyPlugin implements IGamePluginService {
+public class AsteroidPlugin implements IGamePluginService {
 
     private Entity enemy;
     private Entity enemy1;
@@ -16,7 +16,7 @@ public class EnemyPlugin implements IGamePluginService {
 
     Random random = new Random();
 
-    public EnemyPlugin() {
+    public AsteroidPlugin() {
     }
 
     @Override
@@ -33,7 +33,7 @@ public class EnemyPlugin implements IGamePluginService {
 
     private Entity createEnemyShip(GameData gameData) {
 
-        Entity enemyShip = new Enemy();
+        Entity enemyShip = new Asteroid();
         enemyShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
         enemyShip.setX(gameData.getDisplayHeight()/random.nextDouble(5));
         enemyShip.setY(gameData.getDisplayWidth()/random.nextDouble(5));

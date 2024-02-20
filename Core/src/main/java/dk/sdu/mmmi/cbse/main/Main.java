@@ -98,9 +98,8 @@ public class Main extends Application {
             @Override
             public void handle(long now) {
                 long currentTime = System.nanoTime();
-                double deltaTime = (currentTime - lastTime) / 1_000_000_000.0; // Convert nanoseconds to seconds
+                double deltaTime = (currentTime - lastTime) / 1_000_000_000.0; //convert nanoseconds to seconds
                 lastTime = currentTime;
-
                 update(deltaTime);
                 draw();
                 gameData.getKeys().update();

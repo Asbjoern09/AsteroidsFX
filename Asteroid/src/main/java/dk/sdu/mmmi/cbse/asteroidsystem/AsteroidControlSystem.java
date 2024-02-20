@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.enemysystem;
+package dk.sdu.mmmi.cbse.asteroidsystem;
 
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
@@ -15,7 +15,7 @@ import java.util.ServiceLoader;
 import static java.util.stream.Collectors.toList;
 
 
-public class EnemyControlSystem implements IEntityProcessingService {
+public class AsteroidControlSystem implements IEntityProcessingService {
 
 
     Random random = new Random();
@@ -24,7 +24,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
     public void process(GameData gameData, World world, double dt) {
         double rotationSpeed = 50;
         double movementSpeed = 50;
-        for (Entity enemy : world.getEntities(Enemy.class)) {
+        for (Entity enemy : world.getEntities(Asteroid.class)) {
             int randomNumber = random.nextInt(150);
 
             System.out.println("enemy y = " + enemy.getY());
