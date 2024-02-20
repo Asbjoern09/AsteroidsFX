@@ -51,13 +51,6 @@ public class AsteroidControlSystem implements IEntityProcessingService {
                     enemy.setY(enemy.getY() + changeY);
                 }
 
-                if (randomNumber == 12) {
-                    ArrayList<BulletSPI> bulletSPIArrayList = (ArrayList<BulletSPI>) getBulletSPIs();
-                    for (int i = 0; i < bulletSPIArrayList.size(); i++) {
-                            world.addEntity(bulletSPIArrayList.get(i).createBullet(enemy, gameData));
-                    }
-                }
-
                 if (enemy.getX() < 0) {
                     enemy.setX(1);
                 }

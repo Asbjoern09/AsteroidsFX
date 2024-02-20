@@ -9,9 +9,9 @@ import java.util.Random;
 
 public class AsteroidPlugin implements IGamePluginService {
 
-    private Entity enemy;
-    private Entity enemy1;
-    private Entity enemy2;
+    private Entity asteroid;
+    private Entity asteroid1;
+    private Entity asteroid2;
 
 
     Random random = new Random();
@@ -23,30 +23,30 @@ public class AsteroidPlugin implements IGamePluginService {
     public void start(GameData gameData, World world) {
 
         // Add entities to the world
-        enemy = createEnemyShip(gameData);
-        enemy1 = createEnemyShip(gameData);
-        enemy2 = createEnemyShip(gameData);
-        world.addEntity(enemy);
-        world.addEntity(enemy1);
-        world.addEntity(enemy2);
+        asteroid = createAsteroid(gameData);
+        asteroid1 = createAsteroid(gameData);
+        asteroid2 = createAsteroid(gameData);
+        world.addEntity(asteroid);
+        world.addEntity(asteroid1);
+        world.addEntity(asteroid2);
     }
 
-    private Entity createEnemyShip(GameData gameData) {
+    private Entity createAsteroid(GameData gameData) {
 
-        Entity enemyShip = new Asteroid();
-        enemyShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
-        enemyShip.setX(gameData.getDisplayHeight()/random.nextDouble(5));
-        enemyShip.setY(gameData.getDisplayWidth()/random.nextDouble(5));
-        enemyShip.setRotation(random.nextDouble(361));
-        return enemyShip;
+        Entity asteroid = new Asteroid();
+        asteroid.setPolygonCoordinates(-5,-5, 10,-5, 10,0, 5,5, -5,10, -10,0);
+        asteroid.setX(gameData.getDisplayHeight()/random.nextDouble(5));
+        asteroid.setY(gameData.getDisplayWidth()/random.nextDouble(5));
+        asteroid.setRotation(random.nextDouble(361));
+        return asteroid;
     }
 
     @Override
     public void stop(GameData gameData, World world) {
         // Remove entities
-        world.removeEntity(enemy);
-        world.removeEntity(enemy1);
-        world.removeEntity(enemy2);
+        world.removeEntity(asteroid);
+        world.removeEntity(asteroid1);
+        world.removeEntity(asteroid2);
     }
 
 }
