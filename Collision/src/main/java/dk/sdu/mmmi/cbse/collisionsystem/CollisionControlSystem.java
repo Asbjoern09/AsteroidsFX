@@ -35,7 +35,7 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
                 playerAsteroidCollisionHandler(entity, entity1,world);
             }
              else if (entity.getEntityType() == EntityType.bullet && entity1.getEntityType() == EntityType.asteroid || entity1.getEntityType() == EntityType.bullet && entity.getEntityType() == EntityType.asteroid) {
-                playerAsteroidCollisionHandler(entity, entity1,world);
+                bulletAsteroidCollisionHandler(entity, entity1,world);
             }
         }
     }
@@ -50,12 +50,14 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
         }
     }
     public void bulletAsteroidCollisionHandler(Entity entity, Entity entity1,World world){
-        if(entity.getEntityType() == EntityType.asteroid){
-            entity.setEnabled(false);
-            world.removeEntity(entity);
-        } else if (entity1.getEntityType() == EntityType.asteroid) {
-            entity.setEnabled(false);
-            world.removeEntity(entity1);
+        if(entity.getEntityType() == EntityType.asteroid && !entity.isHit()){
+            entity.setHit(true);
+        } else if (entity1.getEntityType() == EntityType.asteroid && !entity1.isHit()) {
+            entity.setHit(true);
+        } else if (entity.getEntityType() == EntityType.asteroid) {
+//            world.removeEntity(entity);
+        } else if (entity1.getEntityType() == EntityType.asteroid){
+//            world.removeEntity(entity1);
         }
     }
 

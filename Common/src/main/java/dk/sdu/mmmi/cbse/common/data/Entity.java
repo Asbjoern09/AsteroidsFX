@@ -19,6 +19,8 @@ public class Entity implements Serializable {
     private EntityType entityType;
 
     private boolean enabled = false;
+    private boolean hit = false;
+
 
     public String getID() {
         return ID.toString();
@@ -69,6 +71,13 @@ public class Entity implements Serializable {
 
     public boolean isEnabled() {
         return enabled;
+    }
+    public boolean isHit() {
+        return hit;
+    }
+
+    public void setHit(boolean hit) {
+        this.hit = hit;
     }
 
     public void setEnabled(boolean enabled) {

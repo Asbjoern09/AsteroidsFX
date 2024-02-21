@@ -4,8 +4,8 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
 module Asteroid {
     requires Common;
-    requires CommonBullet;   
-    uses dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
+    requires CommonAsteroid;
+    uses dk.sdu.mmmi.cbse.common.asteroid.AsteroidSPI;
     provides IGamePluginService with dk.sdu.mmmi.cbse.asteroidsystem.AsteroidPlugin;
     provides IEntityProcessingService with dk.sdu.mmmi.cbse.asteroidsystem.AsteroidControlSystem;
     

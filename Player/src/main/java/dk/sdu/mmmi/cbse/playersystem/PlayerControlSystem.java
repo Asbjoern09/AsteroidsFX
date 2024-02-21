@@ -39,6 +39,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
             }
             if(gameData.getKeys().isDown(GameKeys.SPACE)){
                 ArrayList<BulletSPI> bulletSPIArrayList = (ArrayList<BulletSPI>) getBulletSPIs();
+                System.out.println("BulletSPI " + bulletSPIArrayList);
                 for (int i = 0; i < bulletSPIArrayList.size(); i++) {
                     if(shootingCounter > shootingInterval) {
                         world.addEntity(bulletSPIArrayList.get(i).createBullet(player, gameData));
