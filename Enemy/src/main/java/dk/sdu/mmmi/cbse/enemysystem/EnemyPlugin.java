@@ -34,6 +34,7 @@ public class EnemyPlugin implements IGamePluginService {
     private Entity createEnemyShip(GameData gameData) {
 
         Entity enemyShip = new Enemy();
+        enemyShip.setEnabled(true);
         enemyShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
         enemyShip.setX(gameData.getDisplayHeight()/random.nextDouble(5));
         enemyShip.setY(gameData.getDisplayWidth()/random.nextDouble(5));

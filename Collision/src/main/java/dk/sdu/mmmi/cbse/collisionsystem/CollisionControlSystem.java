@@ -30,23 +30,33 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
 
         double distance = Math.sqrt(Math.pow(entity1.getX() - entity.getX(), 2) + Math.pow(entity1.getY() - entity.getY(), 2));
 
-        if(distance < 20){
-            if(entity.getEntityType() == EntityType.player) {
-                playerAsteroidCollisionHandler(entity, world);
-            }else if(entity1.getEntityType() == EntityType.player){
-                playerAsteroidCollisionHandler(entity1, world);
+        if(distance < 10){
+            if(entity.getEntityType() == EntityType.player && entity1.getEntityType() == EntityType.asteroid || entity1.getEntityType() == EntityType.player && entity.getEntityType() == EntityType.asteroid) {
+                playerAsteroidCollisionHandler(entity, entity1,world);
             }
-        }else{
-
+             else if (entity.getEntityType() == EntityType.bullet && entity1.getEntityType() == EntityType.asteroid || entity1.getEntityType() == EntityType.bullet && entity.getEntityType() == EntityType.asteroid) {
+                playerAsteroidCollisionHandler(entity, entity1,world);
+            }
         }
     }
 
-    public void playerAsteroidCollisionHandler(Entity entity, World world){
-        entity.setPolygonCoordinates(0,0,0,0,0,0);
-        world.removeEntity(entity);
+    public void playerAsteroidCollisionHandler(Entity entity, Entity entity1,World world){
+        if(entity.getEntityType() == EntityType.player){
+            entity.setEnabled(false);
+            world.removeEntity(entity);
+        } else if (entity1.getEntityType() == EntityType.player) {
+            entity.setEnabled(false);
+            world.removeEntity(entity1);
+        }
     }
-    private void setShape(Entity entity) {
-
+    public void bulletAsteroidCollisionHandler(Entity entity, Entity entity1,World world){
+        if(entity.getEntityType() == EntityType.asteroid){
+            entity.setEnabled(false);
+            world.removeEntity(entity);
+        } else if (entity1.getEntityType() == EntityType.asteroid) {
+            entity.setEnabled(false);
+            world.removeEntity(entity1);
+        }
     }
 
 }

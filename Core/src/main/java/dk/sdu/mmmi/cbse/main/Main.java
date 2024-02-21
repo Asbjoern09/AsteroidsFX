@@ -1,6 +1,7 @@
 package dk.sdu.mmmi.cbse.main;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
+import dk.sdu.mmmi.cbse.common.data.Entity.EntityType;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -120,18 +121,37 @@ public class Main extends Application {
     }
 
     private void draw() {
-        for (Entity entity : world.getEntities()) {
+        List<Entity> entitiesToRemove = new ArrayList<>();
+
+        for (Entity entity : polygons.keySet()) {
             Polygon polygon = polygons.get(entity);
-            if(polygon == null) {
-                polygon = new Polygon(entity.getPolygonCoordinates());
+            if (polygon != null) {
+                if (entity.isEnabled()) {
+                    polygon.setTranslateX(entity.getX());
+                    polygon.setTranslateY(entity.getY());
+                    polygon.setRotate(entity.getRotation());
+                } else {
+                    entitiesToRemove.add(entity);
+                }
+            }
+        }
+
+        for (Entity entityToRemove : entitiesToRemove) {
+            Polygon removedPolygon = polygons.remove(entityToRemove);
+            if (removedPolygon != null) {
+                gameWindow.getChildren().remove(removedPolygon);
+            }
+        }
+
+        for (Entity entity : world.getEntities()) {
+            if (entity.isEnabled() && !polygons.containsKey(entity)) {
+                Polygon polygon = new Polygon(entity.getPolygonCoordinates());
                 polygons.put(entity, polygon);
                 gameWindow.getChildren().add(polygon);
             }
-            polygon.setTranslateX(entity.getX());
-            polygon.setTranslateY(entity.getY());
-            polygon.setRotate(entity.getRotation());
         }
     }
+
 
     private Collection<? extends IGamePluginService> getPluginServices() {
         return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());

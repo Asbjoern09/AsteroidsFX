@@ -17,7 +17,8 @@ public class Entity implements Serializable {
     private double y;
     private double rotation;
     private EntityType entityType;
-            
+
+    private boolean enabled = false;
 
     public String getID() {
         return ID.toString();
@@ -65,6 +66,12 @@ public class Entity implements Serializable {
     public void setEntityType(EntityType entityType) {
         this.entityType = entityType;
     }
-        
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }
