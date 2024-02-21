@@ -136,12 +136,13 @@ public class Main extends Application {
             }
         }
 
-        for (Entity entityToRemove : entitiesToRemove) {
-            Polygon removedPolygon = polygons.remove(entityToRemove);
-            if (removedPolygon != null) {
-                gameWindow.getChildren().remove(removedPolygon);
+        for (Entity entity : polygons.keySet()){
+            if (!world.getEntities().contains(entity)) {
+                gameWindow.getChildren().remove(polygons.get(entity));
+                polygons.remove(entity);
             }
         }
+
 
         for (Entity entity : world.getEntities()) {
             if (entity.isEnabled() && !polygons.containsKey(entity)) {

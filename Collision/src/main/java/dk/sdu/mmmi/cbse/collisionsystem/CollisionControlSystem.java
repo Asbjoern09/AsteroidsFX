@@ -1,14 +1,19 @@
 package dk.sdu.mmmi.cbse.collisionsystem;
 
 
-import dk.sdu.mmmi.cbse.common.bullet.Bullet;
+import dk.sdu.mmmi.cbse.common.asteroid.AsteroidSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.data.Entity.EntityType;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.ServiceLoader;
+
+import static java.util.stream.Collectors.toList;
 
 public class CollisionControlSystem implements IPostEntityProcessingService {
 
@@ -49,16 +54,24 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
             world.removeEntity(entity1);
         }
     }
-    public void bulletAsteroidCollisionHandler(Entity entity, Entity entity1,World world){
-        if(entity.getEntityType() == EntityType.asteroid && !entity.isHit()){
-            entity.setHit(true);
-        } else if (entity1.getEntityType() == EntityType.asteroid && !entity1.isHit()) {
-            entity.setHit(true);
-        } else if (entity.getEntityType() == EntityType.asteroid) {
-//            world.removeEntity(entity);
-        } else if (entity1.getEntityType() == EntityType.asteroid){
-//            world.removeEntity(entity1);
+    public void bulletAsteroidCollisionHandler(Entity entity, Entity entity1, World world){
+        if(entity.getEntityType() == EntityType.asteroid){
+            asteroidSplit(entity, world);
+            world.removeEntity(entity1);
+        } else if (entity1.getEntityType() == EntityType.asteroid) {
+            asteroidSplit(entity1, world);
+            world.removeEntity(entity);
         }
     }
 
+
+    private void asteroidSplit(Entity entity, World world){
+        getAsteroidSPIs().stream().findFirst().ifPresent(spi -> {
+            spi.createSmallerAsteroid(entity, world);
+        });
+    }
+
+    private Collection<? extends AsteroidSPI> getAsteroidSPIs() {
+        return ServiceLoader.load(AsteroidSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    }
 }
