@@ -8,4 +8,13 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
  */
 public class Asteroid extends Entity {
 
+    int splitCounter = 2;
+
+    public int getSplitCounter() {
+        return splitCounter;
+    }
+
+    public void setSplitCounter(int splitCounter) {
+        this.splitCounter = splitCounter;
+    }
 }

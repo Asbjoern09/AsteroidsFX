@@ -8,9 +8,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.data.Entity.EntityType;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.ServiceLoader;
 
 import static java.util.stream.Collectors.toList;
@@ -67,7 +65,7 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
 
     private void asteroidSplit(Entity entity, World world){
         getAsteroidSPIs().stream().findFirst().ifPresent(spi -> {
-            spi.createSmallerAsteroid(entity, world);
+            spi.handleAsteroidSplit(entity, world);
         });
     }
 

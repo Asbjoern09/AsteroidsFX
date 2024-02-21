@@ -57,21 +57,44 @@ public class AsteroidControlSystem implements IEntityProcessingService, Asteroid
     }
 
     @Override
-    public void createSmallerAsteroid(Entity bigAsteroid, World world) {
-        destroyBigAsteroid(bigAsteroid,world);
-        for (int i = 0; i < 2; i++) {
-            Asteroid newAsteroid = new Asteroid();
-            newAsteroid.setEnabled(true);
-            newAsteroid.setEntityType(EntityType.asteroid);
-            newAsteroid.setPolygonCoordinates(-5,-5, 10,-5, 10,0, 5,5, -5,10, -10,0);
-            newAsteroid.setX(bigAsteroid.getX());
-            newAsteroid.setY(bigAsteroid.getY());
-            newAsteroid.setRotation(random.nextDouble(361));
-            world.addEntity(newAsteroid);
+    public void handleAsteroidSplit(Entity bigAsteroid, World world) {
+        Asteroid oldAsteroid = (Asteroid) bigAsteroid;
+        if(oldAsteroid.getSplitCounter() <= 0){
+            destroyBigAsteroid(oldAsteroid,world);
+        }else{
+            int splitCounter = oldAsteroid.getSplitCounter();
+            destroyBigAsteroid(oldAsteroid,world);
+            for (int i = 0; i < 2; i++) {
+                Asteroid newAsteroid = new Asteroid();
+                newAsteroid.setSplitCounter(splitCounter - 1);
+                newAsteroid.setEnabled(true);
+                newAsteroid.setEntityType(EntityType.asteroid);
+                double[] reducedPolygonCoords = reduceAsteroidSize(bigAsteroid.getPolygonCoordinates());
+                newAsteroid.setPolygonCoordinates(reducedPolygonCoords);
+                if(i== 0){
+                    newAsteroid.setX(bigAsteroid.getX()+5);
+                    newAsteroid.setY(bigAsteroid.getY()+5);
+                }else {
+                    newAsteroid.setX(bigAsteroid.getX()+5);
+                    newAsteroid.setY(bigAsteroid.getY()-5);
+                }
+                newAsteroid.setRotation(random.nextDouble(361));
+                world.addEntity(newAsteroid);
+            }
         }
 
     }
 
+    public double[] reduceAsteroidSize(double[] polygonCoords){
+        for (int i = 0; i < polygonCoords.length; i++) {
+            if(polygonCoords[i] < 0){
+                polygonCoords[i] += 1;
+            }else if (polygonCoords[i] > 0 ){
+                polygonCoords[i] -= 1;
+            }
+        }
+        return polygonCoords;
+    }
 
     public void destroyBigAsteroid(Entity destroyAsteroid, World world){
         world.removeEntity(destroyAsteroid);
