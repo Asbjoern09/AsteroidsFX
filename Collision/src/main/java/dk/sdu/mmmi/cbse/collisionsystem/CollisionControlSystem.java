@@ -34,12 +34,8 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
         double distance = Math.sqrt(Math.pow(entity1.getX() - entity.getX(), 2) + Math.pow(entity1.getY() - entity.getY(), 2));
 
         if(distance < 10){
-            if(entity.getEntityType() == EntityType.player && entity1.getEntityType() == EntityType.asteroid || entity1.getEntityType() == EntityType.player && entity.getEntityType() == EntityType.asteroid) {
-                playerAsteroidCollisionHandler(entity, entity1,world);
-            }
-             else if (entity.getEntityType() == EntityType.bullet && entity1.getEntityType() == EntityType.asteroid || entity1.getEntityType() == EntityType.bullet && entity.getEntityType() == EntityType.asteroid) {
-                bulletAsteroidCollisionHandler(entity, entity1,world);
-            }
+                entity.handleCollision(entity1,world);
+                entity1.handleCollision(entity,world);
         }
     }
 

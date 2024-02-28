@@ -7,6 +7,8 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class AsteroidPlugin implements IGamePluginService {
@@ -14,6 +16,8 @@ public class AsteroidPlugin implements IGamePluginService {
     private Entity asteroid;
     private Entity asteroid1;
     private Entity asteroid2;
+
+    List<Entity> asteroidList = new ArrayList<>();
 
 
     Random random = new Random();
@@ -24,13 +28,12 @@ public class AsteroidPlugin implements IGamePluginService {
     @Override
     public void start(GameData gameData, World world) {
 
-        // Add entities to the world
-        asteroid = createAsteroid(gameData);
-        asteroid1 = createAsteroid(gameData);
-        asteroid2 = createAsteroid(gameData);
-        world.addEntity(asteroid);
-        world.addEntity(asteroid1);
-        world.addEntity(asteroid2);
+        for (int i = 0; i < 20; i++) {
+            asteroid = createAsteroid(gameData);
+            asteroidList.add(asteroid);
+            world.addEntity(asteroid);
+
+        }
     }
 
     private Entity createAsteroid(GameData gameData) {
@@ -47,10 +50,11 @@ public class AsteroidPlugin implements IGamePluginService {
 
     @Override
     public void stop(GameData gameData, World world) {
-        // Remove entities
-        world.removeEntity(asteroid);
-        world.removeEntity(asteroid1);
-        world.removeEntity(asteroid2);
+        for (int i = 0; i < asteroidList.size(); i++) {
+            world.removeEntity(asteroidList.get(i));
+
+        }
+
     }
 
 }

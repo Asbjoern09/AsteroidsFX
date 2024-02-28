@@ -75,4 +75,9 @@ public class Entity implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    public void handleCollision(Entity entity, World world){
+        System.out.println("Collides");
+    }
+
 }
