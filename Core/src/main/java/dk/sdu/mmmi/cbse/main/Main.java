@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.cbse.main;
 
+import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.Entity.EntityType;
 import dk.sdu.mmmi.cbse.common.data.GameData;
@@ -8,12 +9,10 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ServiceLoader;
+
+import java.lang.module.ModuleFinder;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
 import javafx.animation.AnimationTimer;
@@ -33,6 +32,13 @@ public class Main extends Application {
 
     public Pane gameWindow;
     public static void main(String[] args) {
+//        var layer = createLayer(args[0], "dk.sdu.mmmi.cbse.common.bulletr");
+//        var services = ServiceLoader.load(layer, Bullet.class);
+//        services.stream()
+//                .map(ServiceLoader.Provider::get)
+//                .forEach(confProvider ->
+//                        System.out.println(confProvider.getID())
+//                );
         launch(Main.class);
     }
 
@@ -164,5 +170,12 @@ public class Main extends Application {
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
         return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    }
+
+    private static ModuleLayer createLayer(String from, String module) {
+        var finder = ModuleFinder.of(Paths.get(from));
+        var parent = ModuleLayer.boot();
+        var cf = parent.configuration().resolve(finder, ModuleFinder.of(), Set.of(module));
+        return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
     }
 }

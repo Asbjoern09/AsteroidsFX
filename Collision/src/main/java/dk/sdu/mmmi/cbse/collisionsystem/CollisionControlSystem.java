@@ -48,22 +48,22 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
             world.removeEntity(entity1);
         }
     }
-    public void bulletAsteroidCollisionHandler(Entity entity, Entity entity1, World world){
-        if(entity.getEntityType() == EntityType.asteroid){
-            asteroidSplit(entity, world);
-            world.removeEntity(entity1);
-        } else if (entity1.getEntityType() == EntityType.asteroid) {
-            asteroidSplit(entity1, world);
-            world.removeEntity(entity);
-        }
-    }
+//    public void bulletAsteroidCollisionHandler(Entity entity, Entity entity1, World world){
+//        if(entity.getEntityType() == EntityType.asteroid){
+//            asteroidSplit(entity, world);
+//            world.removeEntity(entity1);
+//        } else if (entity1.getEntityType() == EntityType.asteroid) {
+//            asteroidSplit(entity1, world);
+//            world.removeEntity(entity);
+//        }
+//    }
 
-
-    private void asteroidSplit(Entity entity, World world){
-        getAsteroidSPIs().stream().findFirst().ifPresent(spi -> {
-            spi.handleAsteroidSplit(entity, world);
-        });
-    }
+//
+//    private void asteroidSplit(Entity entity, World world){
+//        getAsteroidSPIs().stream().findFirst().ifPresent(spi -> {
+//            spi.handleAsteroidSplit(entity, world);
+//        });
+//    }
 
     private Collection<? extends AsteroidSPI> getAsteroidSPIs() {
         return ServiceLoader.load(AsteroidSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
