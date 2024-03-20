@@ -31,25 +31,22 @@ List<Entity> enemyList = new ArrayList<>();
             world.addEntity(enemy);
 
         }
-//        // Add entities to the world
-//        enemy = createEnemyShip(gameData);
-//        enemy1 = createEnemyShip(gameData);
-//        enemy2 = createEnemyShip(gameData);
-//        world.addEntity(enemy);
-//        world.addEntity(enemy1);
-//        world.addEntity(enemy2);
+
     }
 
     private Entity createEnemyShip(GameData gameData) {
-
         Entity enemyShip = new Enemy();
         enemyShip.setEnabled(true);
-        enemyShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
-        enemyShip.setX(gameData.getDisplayHeight()/random.nextDouble(5));
-        enemyShip.setY(gameData.getDisplayWidth()/random.nextDouble(5));
-        enemyShip.setRotation(random.nextDouble(361));
+        enemyShip.setPolygonCoordinates(-5, -5, 10, 0, -5, 5);
+        // Generate random coordinates within the bounds of the game display
+        double randomX = random.nextDouble() * gameData.getDisplayWidth();
+        double randomY = random.nextDouble() * gameData.getDisplayHeight();
+        enemyShip.setX(randomX);
+        enemyShip.setY(randomY);
+        enemyShip.setRotation(random.nextDouble() * 361);
         return enemyShip;
     }
+
 
     @Override
     public void stop(GameData gameData, World world) {
