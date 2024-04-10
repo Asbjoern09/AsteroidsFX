@@ -25,7 +25,7 @@ List<Entity> enemyList = new ArrayList<>();
     @Override
     public void start(GameData gameData, World world) {
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 5; i++) {
             enemy = createEnemyShip(gameData);
             enemyList.add(enemy);
             world.addEntity(enemy);
