@@ -68,14 +68,10 @@ public class Asteroid extends Entity {
 //            entity.setX(entity.getX()-10);
 //            entity.setY(entity.getY()-5);
             collisionCounter++;
-            System.out.println(collisionCounter);
         } else if(collisionCounter > 100 && collisionCounter < 200){
             collisionCounter++;
-            System.out.println(collisionCounter);
         }else{
             collisionCounter = 0;
-            System.out.println(collisionCounter);
-
         }
     }
 

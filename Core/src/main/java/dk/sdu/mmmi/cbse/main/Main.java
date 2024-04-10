@@ -19,7 +19,10 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -31,14 +34,9 @@ public class Main extends Application {
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
 
     public Pane gameWindow;
+
+
     public static void main(String[] args) {
-//        var layer = createLayer(args[0], "dk.sdu.mmmi.cbse.common.bulletr");
-//        var services = ServiceLoader.load(layer, Bullet.class);
-//        services.stream()
-//                .map(ServiceLoader.Provider::get)
-//                .forEach(confProvider ->
-//                        System.out.println(confProvider.getID())
-//                );
         launch(Main.class);
     }
 
@@ -48,6 +46,10 @@ public class Main extends Application {
         gameWindow = new Pane();
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
+
+        BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, null, null);
+        Background background = new Background(backgroundFill);
+        gameWindow.setBackground(background);
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
@@ -131,6 +133,7 @@ public class Main extends Application {
 
         for (Entity entity : polygons.keySet()) {
             Polygon polygon = polygons.get(entity);
+            polygon.setFill(Color.WHITE);
             if (polygon != null) {
                 if (entity.isEnabled()) {
                     polygon.setTranslateX(entity.getX());
