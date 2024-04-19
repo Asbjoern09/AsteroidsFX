@@ -11,7 +11,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
  */
 public class Enemy extends Entity {
 
-    int hp = 5;
+    int hp = 10;
     @Override
     public void handleCollision(Entity entity, World world){
         if(entity instanceof Asteroid){

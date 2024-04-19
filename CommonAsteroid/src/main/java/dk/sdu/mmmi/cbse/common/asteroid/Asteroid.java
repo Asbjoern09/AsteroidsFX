@@ -3,6 +3,12 @@ package dk.sdu.mmmi.cbse.common.asteroid;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.World;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 import java.util.Random;
 
 /**
@@ -38,6 +44,7 @@ public class Asteroid extends Entity {
     public void handleCollision(Entity entity, World world){
         if(entity.getEntityType() != EntityType.asteroid) {
             if (splitCounter <= 0) {
+                updateScore("http://localhost:8080/score");
                 destroyBigAsteroid(world);
             } else {
                 for (int i = 0; i < 2; i++) {
@@ -88,6 +95,27 @@ public class Asteroid extends Entity {
 
     public void destroyBigAsteroid(World world){
         world.removeEntity(this);
+    }
+
+
+    public int updateScore(String url){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        int scoreInt;
+        try {
+            HttpResponse<String> score = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(score.body());
+            scoreInt = Integer.parseInt(score.body());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return  scoreInt;
     }
 
     public String getParentID() {

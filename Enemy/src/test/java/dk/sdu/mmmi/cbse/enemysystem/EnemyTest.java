@@ -40,12 +40,13 @@ public class EnemyTest {
     @Test
     public void testHandleCollisionWithBulletFromDifferentParent() {
         int oldHp = enemy.getHp();
+        int loopTimes = enemy.getHp();
         Bullet bullet = new Bullet(UUID.randomUUID().toString());
 
         enemy.handleCollision(bullet, world);
         assertTrue(enemy.getHp() < oldHp);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i <loopTimes; i++) {
             enemy.handleCollision(bullet, world);
         }
         assertFalse(world.getEntities().contains(enemy));

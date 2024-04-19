@@ -8,7 +8,12 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
+import java.io.IOException;
 import java.lang.module.ModuleFinder;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -59,6 +64,7 @@ public class GameLoader extends Application {
         gameWindow = new Pane();
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
+        callScoreService("http://localhost:8080/resetScore", true);
 
         BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, null, null);
         Background background = new Background(backgroundFill);
@@ -99,11 +105,13 @@ public class GameLoader extends Application {
         for (IGamePluginService iGamePlugin : getPluginServices()) {
             iGamePlugin.start(gameData, world);
         }
+
         for (Entity entity : world.getEntities()) {
             Polygon polygon = new Polygon(entity.getPolygonCoordinates());
             polygon.setFill(Color.WHITE);
             polygons.put(entity, polygon);
             gameWindow.getChildren().add(polygon);
+
         }
 
         render();
@@ -173,6 +181,9 @@ public class GameLoader extends Application {
                 gameWindow.getChildren().add(polygon);
             }
         }
+
+        Text textNode = (Text) gameWindow.getChildren().get(0);
+        textNode.setText("Destroyed asteroids: " + callScoreService("http://localhost:8080/getScore", false));
     }
 
 
@@ -194,4 +205,27 @@ public class GameLoader extends Application {
         var cf = parent.configuration().resolve(finder, ModuleFinder.of(), Set.of(module));
         return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
     }
+
+    public int callScoreService(String url, boolean isVoid){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        int scoreInt = 0;
+        try {
+            HttpResponse<String> score = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(isVoid != true) {
+                scoreInt = Integer.parseInt(score.body());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return  scoreInt;
+    }
+
 }
