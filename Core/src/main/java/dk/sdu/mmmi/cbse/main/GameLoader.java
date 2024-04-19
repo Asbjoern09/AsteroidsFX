@@ -17,7 +17,10 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -57,6 +60,10 @@ public class GameLoader extends Application {
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
 
+        BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, null, null);
+        Background background = new Background(backgroundFill);
+        gameWindow.setBackground(background);
+
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.LEFT)) {
@@ -94,6 +101,7 @@ public class GameLoader extends Application {
         }
         for (Entity entity : world.getEntities()) {
             Polygon polygon = new Polygon(entity.getPolygonCoordinates());
+            polygon.setFill(Color.WHITE);
             polygons.put(entity, polygon);
             gameWindow.getChildren().add(polygon);
         }
