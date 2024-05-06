@@ -40,7 +40,7 @@ public class AsteroidPlugin implements IGamePluginService {
 
         Entity asteroid = new Asteroid();
         asteroid.setEnabled(true);
-        asteroid.setEntityType(EntityType.asteroid);
+        asteroid.setHp(2);
         asteroid.setPolygonCoordinates(10, 0, 5, 8.66, -5, 8.66, -10, 0, -5, -8.66, 5, -8.66);
         asteroid.setX(gameData.getDisplayHeight()/random.nextDouble(5));
         asteroid.setY(gameData.getDisplayWidth()/random.nextDouble(5));

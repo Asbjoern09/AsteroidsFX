@@ -17,12 +17,6 @@ public class Bullet extends Entity {
     public Bullet(String parentID){
         this.parentID = parentID;
     }
-    @Override
-    public void handleCollision(Entity entity, World world){
-        if(!entity.getID().equals(parentID)) {
-            world.removeEntity(this);
-        }
-    }
 
     public String getParentID() {
         return parentID;

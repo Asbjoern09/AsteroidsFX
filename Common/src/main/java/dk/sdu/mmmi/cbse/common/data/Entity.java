@@ -6,6 +6,7 @@ import java.util.UUID;
 public class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();
+    int hp = 0;
 
 
     public enum EntityType{
@@ -80,4 +81,11 @@ public class Entity implements Serializable {
         System.out.println("Collides");
     }
 
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 }

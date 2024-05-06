@@ -37,6 +37,7 @@ List<Entity> enemyList = new ArrayList<>();
     private Entity createEnemyShip(GameData gameData) {
         Entity enemyShip = new Enemy();
         enemyShip.setEnabled(true);
+        enemyShip.setHp(5);
         enemyShip.setPolygonCoordinates(-5, -5, 10, 0, -5, 5);
         // Generate random coordinates within the bounds of the game display
         double randomX = random.nextDouble() * gameData.getDisplayWidth();
