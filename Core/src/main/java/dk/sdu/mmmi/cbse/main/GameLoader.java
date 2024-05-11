@@ -32,14 +32,14 @@ public class GameLoader extends Application {
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
 
     public Pane gameWindow;
-    private final List<IGamePluginService> gamePluginServices;
+    private final List<IGamePluginService> gamePluginServiceList;
     private final List<IEntityProcessingService> entityProcessingServiceList;
-    private final List<IPostEntityProcessingService> postEntityProcessingServices;
+    private final List<IPostEntityProcessingService> postEntityProcessingServiceList;
 
-    GameLoader(List<IGamePluginService> gamePluginServices, List<IEntityProcessingService> entityProcessingServiceList, List<IPostEntityProcessingService> postEntityProcessingServices) {
-        this.gamePluginServices = gamePluginServices;
+    GameLoader(List<IGamePluginService> gamePluginServiceList, List<IEntityProcessingService> entityProcessingServiceList, List<IPostEntityProcessingService> postEntityProcessingServiceList) {
+        this.gamePluginServiceList = gamePluginServiceList;
         this.entityProcessingServiceList = entityProcessingServiceList;
-        this.postEntityProcessingServices = postEntityProcessingServices;
+        this.postEntityProcessingServiceList = postEntityProcessingServiceList;
     }
 
     public static void main(String[] args) {
@@ -137,7 +137,7 @@ public class GameLoader extends Application {
             entityProcessorService.process(gameData, world, deltaTime);
         }
 
-        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServiceList()) {
             postEntityProcessorService.process(gameData, world, deltaTime);
         }
     }
@@ -152,6 +152,7 @@ public class GameLoader extends Application {
                     polygon.setTranslateX(entity.getX());
                     polygon.setTranslateY(entity.getY());
                     polygon.setRotate(entity.getRotation());
+                    polygon.setFill(Color.WHITE); // Set fill color to white
                 } else {
                     entitiesToRemove.add(entity);
                 }
@@ -169,6 +170,7 @@ public class GameLoader extends Application {
         for (Entity entity : world.getEntities()) {
             if (entity.isEnabled() && !polygons.containsKey(entity)) {
                 Polygon polygon = new Polygon(entity.getPolygonCoordinates());
+                polygon.setFill(Color.WHITE); // Set fill color to white
                 polygons.put(entity, polygon);
                 gameWindow.getChildren().add(polygon);
             }
@@ -177,15 +179,15 @@ public class GameLoader extends Application {
 
 
     private Collection<? extends IGamePluginService> getPluginServices() {
-        return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return gamePluginServiceList;
     }
 
     private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-        return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return entityProcessingServiceList;
     }
 
-    private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-        return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServiceList() {
+        return postEntityProcessingServiceList;
     }
 
     private static ModuleLayer createLayer(String from, String module) {
