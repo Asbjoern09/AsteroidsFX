@@ -33,31 +33,7 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
         }
     }
 
-    private void otherCollision(Entity entity, Entity entity1, World world) {
-        entity.setHp(entity.getHp() - 1);
-        entity1.setHp(entity1.getHp() - 1);
-
-        if (entity.getHp() <= 0) {
-            world.removeEntity(entity);
-        }
-        if (entity1.getHp() <= 0) {
-            world.removeEntity(entity1);
-        }
-    }
-
-    private boolean bulletShooterCollision(Entity entity, Entity entity1) {
-        if (entity instanceof Bullet) {
-            Bullet bullet = (Bullet) entity;
-            return bullet.getParentID().equals(entity1.getID());
-        }
-        if (entity1 instanceof Bullet) {
-            Bullet bullet = (Bullet) entity1;
-            return bullet.getParentID().equals(entity.getID());
-        }
-        return false;
-    }
-
-    private void asteroidCollision(Entity entity, Entity entity1, World world) {
+    protected void asteroidCollision(Entity entity, Entity entity1, World world) {
         List<Asteroid> smallerAsteroids = new ArrayList<>();
         if (entity instanceof Asteroid) {
             Asteroid asteroid = (Asteroid) entity;
@@ -82,10 +58,34 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
         }
     }
 
+    protected boolean bulletShooterCollision(Entity entity, Entity entity1) {
+        if (entity instanceof Bullet) {
+            Bullet bullet = (Bullet) entity;
+            return bullet.getParentID().equals(entity1.getID());
+        }
+        if (entity1 instanceof Bullet) {
+            Bullet bullet = (Bullet) entity1;
+            return bullet.getParentID().equals(entity.getID());
+        }
+        return false;
+    }
 
+    protected void otherCollision(Entity entity, Entity entity1, World world) {
+        entity.setHp(entity.getHp() - 1);
+        entity1.setHp(entity1.getHp() - 1);
+
+        if (entity.getHp() <= 0) {
+            world.removeEntity(entity);
+        }
+        if (entity1.getHp() <= 0) {
+            world.removeEntity(entity1);
+        }
+    }
     private boolean collideChecker(Entity entity, Entity entity1) {
         double distance = Math.sqrt(Math.pow(entity.getX() - entity1.getX(), 2) + Math.pow(entity.getY() - entity1.getY(), 2));
         return distance < 10;
     }
+
+
 
 }

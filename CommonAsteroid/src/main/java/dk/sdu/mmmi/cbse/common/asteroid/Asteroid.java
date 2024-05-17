@@ -29,7 +29,7 @@ public class Asteroid extends Entity {
                 newAsteroid.setX(asteroid.getX() - 10);
                 newAsteroid.setY(asteroid.getY() - 10);
             }
-            newAsteroid.setRotation(random.nextDouble(361));
+            newAsteroid.setRotation(random.nextDouble()*361);
             smallerAsteroids.add(newAsteroid);
         }
         return smallerAsteroids;
