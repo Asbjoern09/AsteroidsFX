@@ -75,11 +75,11 @@ public class CollisionControlSystem implements IPostEntityProcessingService {
         entity1.setHp(entity1.getHp() - 1);
 
         if (entity instanceof Asteroid || entity1 instanceof Asteroid) {
-            if (entity instanceof Asteroid && entity.getHp() <= 0) {
-                world.removeEntity(entity);
-            }
-            if (entity1 instanceof Asteroid && entity1.getHp() <= 0) {
+            if (entity instanceof Asteroid) {
                 world.removeEntity(entity1);
+            }
+            if (entity1 instanceof Asteroid) {
+                world.removeEntity(entity);
             }
         } else {
             if (entity.getHp() <= 0) {
