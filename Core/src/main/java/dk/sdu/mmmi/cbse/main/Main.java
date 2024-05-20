@@ -45,12 +45,7 @@ public class Main extends Application {
         ModuleFinder finder = ModuleFinder.of(Paths.get("plugins"));
         ModuleLayer parent = ModuleLayer.boot();
 
-        List<String> plugins = finder
-                .findAll()
-                .stream()
-                .map(ModuleReference::descriptor)
-                .map(ModuleDescriptor::name)
-                .collect(Collectors.toList());
+        List<String> plugins = finder.findAll().stream().map(ModuleReference::descriptor).map(ModuleDescriptor::name).collect(Collectors.toList());
 
         Configuration cf = parent.configuration().resolve(finder, ModuleFinder.of(), plugins);
         return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
