@@ -12,7 +12,6 @@ import java.lang.module.ModuleFinder;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import static java.util.stream.Collectors.toList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -40,17 +39,6 @@ public class GameLoader extends Application {
         this.gamePluginServiceList = gamePluginServiceList;
         this.entityProcessingServiceList = entityProcessingServiceList;
         this.postEntityProcessingServiceList = postEntityProcessingServiceList;
-    }
-
-    public static void main(String[] args) {
-//        var layer = createLayer(args[0], "dk.sdu.mmmi.cbse.common.bulletr");
-//        var services = ServiceLoader.load(layer, Bullet.class);
-//        services.stream()
-//                .map(ServiceLoader.Provider::get)
-//                .forEach(confProvider ->
-//                        System.out.println(confProvider.getID())
-//                );
-        launch(GameLoader.class);
     }
 
     @Override
@@ -95,7 +83,6 @@ public class GameLoader extends Application {
 
         });
 
-        // Lookup all Game Plugins using ServiceLoader
         for (IGamePluginService iGamePlugin : getPluginServices()) {
             iGamePlugin.start(gameData, world);
         }
@@ -152,7 +139,7 @@ public class GameLoader extends Application {
                     polygon.setTranslateX(entity.getX());
                     polygon.setTranslateY(entity.getY());
                     polygon.setRotate(entity.getRotation());
-                    polygon.setFill(Color.WHITE); // Set fill color to white
+                    polygon.setFill(Color.WHITE);
                 } else {
                     entitiesToRemove.add(entity);
                 }
@@ -170,7 +157,7 @@ public class GameLoader extends Application {
         for (Entity entity : world.getEntities()) {
             if (entity.isEnabled() && !polygons.containsKey(entity)) {
                 Polygon polygon = new Polygon(entity.getPolygonCoordinates());
-                polygon.setFill(Color.WHITE); // Set fill color to white
+                polygon.setFill(Color.WHITE);
                 polygons.put(entity, polygon);
                 gameWindow.getChildren().add(polygon);
             }
@@ -190,10 +177,4 @@ public class GameLoader extends Application {
         return postEntityProcessingServiceList;
     }
 
-    private static ModuleLayer createLayer(String from, String module) {
-        var finder = ModuleFinder.of(Paths.get(from));
-        var parent = ModuleLayer.boot();
-        var cf = parent.configuration().resolve(finder, ModuleFinder.of(), Set.of(module));
-        return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
-    }
 }

@@ -12,8 +12,6 @@ import java.util.Random;
 public class EnemyPlugin implements IGamePluginService {
 
     private Entity enemy;
-//    private Entity enemy1;
-//    private Entity enemy2;
 List<Entity> enemyList = new ArrayList<>();
 
 
