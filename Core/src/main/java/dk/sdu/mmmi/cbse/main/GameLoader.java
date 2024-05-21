@@ -48,13 +48,6 @@ public class GameLoader extends Application {
     }
 
     public static void main(String[] args) {
-//        var layer = createLayer(args[0], "dk.sdu.mmmi.cbse.common.bulletr");
-//        var services = ServiceLoader.load(layer, Bullet.class);
-//        services.stream()
-//                .map(ServiceLoader.Provider::get)
-//                .forEach(confProvider ->
-//                        System.out.println(confProvider.getID())
-//                );
         launch(GameLoader.class);
     }
 
@@ -102,7 +95,7 @@ public class GameLoader extends Application {
         });
 
         // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : getPluginServices()) {
+        for (IGamePluginService iGamePlugin : gamePluginServices) {
             iGamePlugin.start(gameData, world);
         }
 
@@ -141,11 +134,11 @@ public class GameLoader extends Application {
 
     private void update(double deltaTime) {
         // Update
-        for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
+        for (IEntityProcessingService entityProcessorService : entityProcessingServiceList) {
             entityProcessorService.process(gameData, world, deltaTime);
         }
 
-        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+        for (IPostEntityProcessingService postEntityProcessorService : postEntityProcessingServices) {
             postEntityProcessorService.process(gameData, world, deltaTime);
         }
     }
@@ -159,6 +152,7 @@ public class GameLoader extends Application {
                 if (entity.isEnabled()) {
                     polygon.setTranslateX(entity.getX());
                     polygon.setTranslateY(entity.getY());
+                    polygon.setFill(Color.WHITE);
                     polygon.setRotate(entity.getRotation());
                 } else {
                     entitiesToRemove.add(entity);
@@ -188,22 +182,15 @@ public class GameLoader extends Application {
 
 
     private Collection<? extends IGamePluginService> getPluginServices() {
-        return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return gamePluginServices;
     }
 
     private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-        return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return entityProcessingServiceList;
     }
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-        return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
-
-    private static ModuleLayer createLayer(String from, String module) {
-        var finder = ModuleFinder.of(Paths.get(from));
-        var parent = ModuleLayer.boot();
-        var cf = parent.configuration().resolve(finder, ModuleFinder.of(), Set.of(module));
-        return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
+        return postEntityProcessingServices;
     }
 
     public int callScoreService(String url, boolean isVoid){

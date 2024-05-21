@@ -8,7 +8,6 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
-import java.util.UUID;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 
@@ -33,13 +32,8 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
         bulletFigure.setX(shooter.getX());
         bulletFigure.setY(shooter.getY());
         bulletFigure.setRotation(shooter.getRotation());
-//        System.out.println("Bullet figure id = " + bulletFigure.getParentID());
-//        System.out.println("Bullet figure id = " + shooter.getID());
         return bulletFigure;
     }
 
-    private void setShape(Entity entity) {
-
-    }
 
 }

@@ -69,11 +69,7 @@ public class Asteroid extends Entity {
             }
         } else if(collisionCounter < 100){
             this.setRotation(this.getRotation()+5);
-//            this.setX(this.getX() +10);
-//            this.setY(this.getY() +5);
             entity.setRotation(entity.getRotation() +5);
-//            entity.setX(entity.getX()-10);
-//            entity.setY(entity.getY()-5);
             collisionCounter++;
         } else if(collisionCounter > 100 && collisionCounter < 200){
             collisionCounter++;

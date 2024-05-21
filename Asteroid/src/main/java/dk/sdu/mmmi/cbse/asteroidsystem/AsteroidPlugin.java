@@ -14,8 +14,7 @@ import java.util.Random;
 public class AsteroidPlugin implements IGamePluginService {
 
     private Entity asteroid;
-    private Entity asteroid1;
-    private Entity asteroid2;
+
 
     List<Entity> asteroidList = new ArrayList<>();
 
