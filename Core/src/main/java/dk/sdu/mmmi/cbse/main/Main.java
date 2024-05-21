@@ -174,10 +174,4 @@ public class Main extends Application {
         return InterfaceServiceLocator.getInstance().locateAllInterfaces(IPostEntityProcessingService.class);
     }
 
-    private static ModuleLayer createLayer(String from, String module) {
-        var finder = ModuleFinder.of(Paths.get(from));
-        var parent = ModuleLayer.boot();
-        var cf = parent.configuration().resolve(finder, ModuleFinder.of(), Set.of(module));
-        return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
-    }
 }
