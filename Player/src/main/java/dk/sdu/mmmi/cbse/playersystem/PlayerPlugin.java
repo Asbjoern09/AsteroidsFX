@@ -4,7 +4,6 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-import dk.sdu.mmmi.cbse.common.data.Entity.EntityType;
 
 public class PlayerPlugin implements IGamePluginService {
 
@@ -15,8 +14,6 @@ public class PlayerPlugin implements IGamePluginService {
 
     @Override
     public void start(GameData gameData, World world) {
-
-        // Add entities to the world
         player = createPlayerShip(gameData);
         world.addEntity(player);
     }
@@ -26,7 +23,6 @@ public class PlayerPlugin implements IGamePluginService {
         Entity playerShip = new Player();
         playerShip.setEnabled(true);
         playerShip.setHp(10);
-        playerShip.setEntityType(EntityType.player);
         playerShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
         playerShip.setX(gameData.getDisplayHeight()/2);
         playerShip.setY(gameData.getDisplayWidth()/2);
@@ -37,7 +33,6 @@ public class PlayerPlugin implements IGamePluginService {
 
     @Override
     public void stop(GameData gameData, World world) {
-        // Remove entities
         world.removeEntity(player);
     }
 

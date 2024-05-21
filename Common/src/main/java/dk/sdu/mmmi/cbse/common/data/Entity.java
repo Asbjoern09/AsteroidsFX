@@ -8,17 +8,10 @@ public class Entity implements Serializable {
     private final UUID ID = UUID.randomUUID();
     int hp = 0;
 
-
-    public enum EntityType{
-        player, enemy, bullet, asteroid
-    }
-
     private double[] polygonCoordinates;
     private double x;
     private double y;
     private double rotation;
-    private EntityType entityType;
-
     private boolean enabled = false;
 
 
@@ -61,14 +54,6 @@ public class Entity implements Serializable {
         return rotation;
     }
 
-    public EntityType getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(EntityType entityType) {
-        this.entityType = entityType;
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
@@ -76,11 +61,7 @@ public class Entity implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-
-    public void handleCollision(Entity entity, World world){
-        System.out.println("Collides");
-    }
-
+    
     public int getHp() {
         return hp;
     }

@@ -2,7 +2,6 @@ package dk.sdu.mmmi.cbse.asteroidsystem;
 
 import dk.sdu.mmmi.cbse.common.asteroid.Asteroid;
 import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.Entity.EntityType;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
@@ -14,8 +13,6 @@ import java.util.Random;
 public class AsteroidPlugin implements IGamePluginService {
 
     private Entity asteroid;
-    private Entity asteroid1;
-    private Entity asteroid2;
 
     List<Entity> asteroidList = new ArrayList<>();
 

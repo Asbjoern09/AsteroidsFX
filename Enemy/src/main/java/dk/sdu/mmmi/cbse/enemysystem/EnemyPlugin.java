@@ -12,10 +12,7 @@ import java.util.Random;
 public class EnemyPlugin implements IGamePluginService {
 
     private Entity enemy;
-//    private Entity enemy1;
-//    private Entity enemy2;
-List<Entity> enemyList = new ArrayList<>();
-
+    List<Entity> enemyList = new ArrayList<>();
 
     Random random = new Random();
 
@@ -29,9 +26,7 @@ List<Entity> enemyList = new ArrayList<>();
             enemy = createEnemyShip(gameData);
             enemyList.add(enemy);
             world.addEntity(enemy);
-
         }
-
     }
 
     private Entity createEnemyShip(GameData gameData) {
@@ -39,7 +34,6 @@ List<Entity> enemyList = new ArrayList<>();
         enemyShip.setEnabled(true);
         enemyShip.setHp(5);
         enemyShip.setPolygonCoordinates(-5, -5, 10, 0, -5, 5);
-        // Generate random coordinates within the bounds of the game display
         double randomX = random.nextDouble() * gameData.getDisplayWidth();
         double randomY = random.nextDouble() * gameData.getDisplayHeight();
         enemyShip.setX(randomX);
